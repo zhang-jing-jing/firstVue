@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue实例</title>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- 生产环境版本，优化了尺寸和速度
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+</head>
+
+<body>
+    <div id="app">
+        <p>{{ foo }}</p>
+        <!-- 这里的 `foo` 不会更新！ -->
+        <button v-on:click="foo = 'baz'">Change it</button>
+    </div>
+    <div id="app2">
+
+    </div>
+
+    <script type="text/javascript">
+        // *数据与方法
+        var data = { a: 1 };
+        var vm = new Vue({
+            data: data,
+        })
+        // 获得这个实例上的属性
+        // 返回源数据中对应的字段
+        console.log(vm.a === data.a);
+
+        // 设置属性也会影响到原始数据
+        vm.a = 2;
+        console.log(data.a);
+
+        // 设置原始数据也会影响属性
+        data.a = 3;
+        console.log(vm.a);
+
+        // 使用freeze(),会阻止修改现有属性
+        var obj = {
+            foo: 'bar',
+        }
+        Object.freeze(obj);
+        var vm2 = new Vue({
+            el: '#app',
+            data: obj
+        })
+
+        // vue暴露了一些有用的属性和方法。它们都有前缀$,以便于用户定于的属性区分
+        var vm3 = new Vue({
+            el: '#app2',
+            data: data
+        })
+        console.log(vm3.$data === data);
+        console.log(vm3.$el === document.getElementById('app2'));
+
+        // $watch 是一个实例方法
+        vm3.$watch('a', function (newValue, oldValue) {
+            // 这个回调将在 `vm.a` 改变后调用
+        })
+
+        // *实例生命周期钩子
+        var vm4 = new Vue({
+            data: {
+                a: 1
+            },
+            created: function () {
+                // this 指向 vm4 实例
+                console.log('a is ' + this.a);
+            }
+        })
+
+
+
+
+    </script>
+</body>
+
+</html>
