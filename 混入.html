@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>混入</title>
+    <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- 生产环境版本，优化了尺寸和速度
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+</head>
+<body>
+
+
+    <script>
+    // 基础
+
+    // 定义一个混入对象
+        var myMixin = {
+            created: function () {
+                this.hello();
+            },
+            methods:{
+                hello:function(){
+                    console.log('hello from mixin!');
+                }
+            }
+        }
+        // 定义一个使用混入对象的组件
+        var Component = Vue.extend({
+            mixins:[myMixin]
+        })
+        var component = new Component();
+
+        // 选项合并
+        // 在和组件的数据发生冲突时以组件数据优先
+        // 混入对象钩子在组件对象钩子之前调用
+        var mixin = {
+            data:function(){
+                return{
+                    message: 'hello',
+                    foo: 'abc'
+                }
+            },
+            created:function(){
+                console.log('混入对象钩子')
+            }
+        }
+
+        new Vue({
+            mixins:[mixin],
+            data:function(){
+                return{
+                    message:'goodbye',
+                    bar:'def'
+                }
+            },
+            created:function () {
+                console.log('组件对象钩子');
+                console.log(this.$data);
+                // => { message: "goodbye", foo: "abc", bar: "def" }
+            }
+        })
+
+        // 全局混入 注意使用，会影响到所有的vue实例
+        Vue.mixin({
+            created:function(){
+                var myOption = this.$options.myOption;
+                if (myOption) {
+                    console.log(myOption)
+                }
+            }
+        })
+        
+        new Vue({
+            myOption:'hello!'
+        })
+    </script>
+</body>
+</html>
