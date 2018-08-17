@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>局部组件注册</title>
+	 <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- 生产环境版本，优化了尺寸和速度
+        <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+</head>
+<body>	
+	<div id="app">
+		<my-parent></my-parent>
+	</div>
+
+	<script>
+		var child = Vue.extend({
+			template:'<p>this is a child component</p>'
+		})
+		
+		var parent = Vue.extend({
+			template:`<div>
+<p>this is a parent component</p>
+<my-child></my-child>
+			</div>
+			`,
+			components:{
+				'my-child':child
+			}
+		})
+		
+		// 组件注册
+		Vue.component('my-parent',parent);
+
+		new Vue({
+			el:'#app',
+		})
+	</script>
+	
+</body>
+</html>

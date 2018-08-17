@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>全局组件注册</title>
+	  <!-- 开发环境版本，包含了有帮助的命令行警告 -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- 生产环境版本，优化了尺寸和速度
+        <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+</head>
+<body>
+
+	<div id="app">
+		parent：<input type="text" v-model="message">
+		<my-component :message="message"></my-component>	
+	</div>
+	
+	<script>
+		// var Mycomponent = Vue.extend({
+		// 	template:'<p> this is a component</p>'
+		// })
+
+		// Vue.component('my-component',Mycomponent);
+
+		// 简化写法
+		Vue.component('my-component',{
+			props:['message'],
+			template:`<div>
+				child component:<input type="text" v-model="message">
+			</div>
+		`
+		})
+ 
+		new Vue({
+			el:'#app',
+			data:{
+				message:''
+			}
+		})
+	</script>
+</body>
+</html>
