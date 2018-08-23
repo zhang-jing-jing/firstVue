@@ -23,7 +23,7 @@
             <tbody>
             <!--遍历的时候带上索引-->
             <tr v-for="(item,index) in productList">
-                <td class="td-check"><span class="check-span" @click="item.select=!item.select" :class="{'check-true':item.select}"></span></td>
+                <td class="td-check"><span class="check-span" :class="{'check-true':item.select}" @click="item.select=!item.select" ></span></td>
                 <td class="td-product"><img :src="item.pro_img" width="98" height="98">
                     <div class="product-info">
                         <h6>{{item.pro_name}}</h6>
